@@ -17,7 +17,7 @@ export class HomePage extends Component {
     {
       try {
         const response = await fetch(
-          'https://peaceful-fortress-84407.herokuapp.com/data/data.json'
+          'https://myroommies.herokuapp.com/data/data.json'
         );
         const json = await response.json();
         this.setState({ data: json.data });

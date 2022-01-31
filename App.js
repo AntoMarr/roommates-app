@@ -6,19 +6,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView, FlatList, StyleSheet} from 'react-native';
 import AnnouncementCard from './components/AnnouncementCard';
 import HomePage from './components/HomePage';
+import ProfilePage from './components/ProfilePage';
 
 const Item = (props) => (
   <View style={styles.item}>
     <Text>{props.title}: {props.message}</Text>
   </View>
 );
-
-function Home() {
-
-  return (
-    <HomePage />
-  );
-}
 
 function Search() {
   return (
@@ -75,7 +69,7 @@ function MyTabs() {
         name="Home"
         component={HomePage}
         options={{
-          title: "GoRoommies",
+          title: "myRoommies",
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
@@ -114,7 +108,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfilePage}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (

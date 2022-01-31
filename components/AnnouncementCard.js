@@ -44,6 +44,7 @@ export class AnnouncementCard extends Component {
                         color={color}
                         style={{
                             alignSelf: 'center',
+                            paddingLeft: 10
                         }}
                     />
                 </View>
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     icon: {
         flex: 1,
         justifyContent: 'center',
-        alignContent: 'center',
+        alignContent: 'center'
         // backgroundColor: 'green',
         // width: 50,
         // height: 50,
