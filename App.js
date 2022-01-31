@@ -3,10 +3,9 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { SafeAreaView, FlatList, StyleSheet} from 'react-native';
-import AnnouncementCard from './components/AnnouncementCard';
-import HomePage from './components/HomePage';
-import ProfilePage from './components/ProfilePage';
+import { StyleSheet } from 'react-native';
+import HomePage from './components/home/HomePage';
+import ProfilePage from './components/profile/ProfilePage';
 
 const Item = (props) => (
   <View style={styles.item}>

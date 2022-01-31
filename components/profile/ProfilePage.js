@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Image, ScrollView, View, Text, StyleSheet, Pressable } from 'react-native';
+import OptionCard from './OptionCard';
 
 export class ProfilePage extends Component {
 
@@ -7,7 +8,7 @@ export class ProfilePage extends Component {
     {
         super(props)
 
-        this.state = {text="This is a card"}
+        this.state = {text: "This is a card"}
     }
   render() {
     return( 
@@ -19,16 +20,8 @@ export class ProfilePage extends Component {
                     style={styles.img}/>
                     <Text style={styles.profileName}>PROFILE NAME</Text>
                 </View>
-                <View style={styles.options}>
-                    <Pressable style={styles.card}>
-                        <Text>
-                            THIS IS A CARD.
-                        </Text>
-                    </Pressable>
-                    <Text style={styles.card}>
-                        THIS IS A CARD.
-                    </Text>
-                </View>
+                <OptionCard />
+                <OptionCard />
             </ScrollView>
         </View>
     );
@@ -60,16 +53,6 @@ const styles = new StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold'
     },
-    options: {
-        flex: 1
-    },
-    card: {
-        flex: 1,
-        width: '100%',
-        height: 50,
-        borderWidth: 1,
-        marginBottom: -1
-    }
 });
 
 export default ProfilePage;
