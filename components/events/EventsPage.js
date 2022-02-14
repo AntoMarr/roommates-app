@@ -4,6 +4,7 @@ import { Calendar } from 'react-native-calendars';
 
 export class EventsPage extends Component {
     render() {
+        // used for grabbing the date and converting it to a propper format
         function formatDate(date) {
             var d = new Date(date - 1),
                 month = '' + (d.getMonth() + 1),
