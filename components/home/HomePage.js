@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, ActivityIndicator } from 'react-native';
+import { FlatList, SafeAreaView, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
 import AnnouncementCard from './AnnouncementCard';
 
 export class HomePage extends Component {
@@ -9,7 +9,8 @@ export class HomePage extends Component {
 
       this.state = {
         data: [],
-        isLoading: true
+        isLoading: true,
+        refreshing: false
       };
     }
 
@@ -17,11 +18,13 @@ export class HomePage extends Component {
     {
       try {
         const response = await fetch(
-          'https://myroommies.herokuapp.com/data/data.json'
+          'https://myroommies.herokuapp.com/user/1/announcements.json'
+          //'https://myroommies.herokuapp.com/data/data.json'
           //https://myroommies.herokuapp.com/USER/annoucnements.json
         );
         const json = await response.json();
-        this.setState({ data: json.data });
+        console.log(json)
+        this.setState({ data: json });
       } catch (error) {
         console.error(error);
       } finally {
@@ -35,66 +38,16 @@ export class HomePage extends Component {
     }
 
     render() {
-
-        // var data = [{
-        //     id: 1,
-        //     type: '1',
-        //     title: "Elevator Down for Repair!",
-        //     desc1: "Please use the stairs while the elevator",
-        //     desc2: "is under repair."
-        //   },
-        //   {
-        //     id: 2,
-        //     type: '2',
-        //     title: "Volleyball Game in the Quad!",
-        //     desc1: "This is the message!"
-        //   },
-        //   {
-        //     id: 3,
-        //     type: '3',
-        //     title: "Announcement",
-        //     desc1: "This is the message!"
-        //   },
-        //   {
-        //     id: 4,
-        //     type: '4',
-        //     title: "Announcement",
-        //     desc1: "This is the message!"
-        //   },{
-        //     id: 5,
-        //     type: '1',
-        //     title: "Elevator Down for Repair!",
-        //     desc1: "Please use the stairs while the elevator",
-        //     desc2: "is under repair."
-        //   },
-        //   {
-        //     id: 6,
-        //     type: '2',
-        //     title: "Volleyball Game in the Quad!",
-        //     desc1: "This is the message!"
-        //   },
-        //   {
-        //     id: 7,
-        //     type: '3',
-        //     title: "Announcement",
-        //     desc1: "This is the message!"
-        //   },
-        //   {
-        //     id: 8,
-        //     type: '4',
-        //     title: "Announcement",
-        //     desc1: "This is the message!"
-        //   }]
-        const { data, isLoading } = this.state;
+        const { data, isLoading, refreshing } = this.state;
       
         const renderItem = ({ item }) => (
         // <Item title={item.title} message={item.message}/>
             <AnnouncementCard
-            type={item.type} 
+            type={item.announcement_type} 
             title={item.title}
-            desc1={item.desc1}
-            desc2={item.desc2}/>
+            desc1={item.description}/>
         );
+
     return(
     <SafeAreaView style={styles.container}>
       {isLoading ? <ActivityIndicator/> : (
@@ -102,7 +55,14 @@ export class HomePage extends Component {
       style={{width: '100%'}}
       data={data}
       renderItem={renderItem}
-      keyExtractor={item => item.id}/>
+      keyExtractor={item => item.announcementid}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={this.getDataFromServer}
+        />
+      }
+      />
       )}
     </SafeAreaView>
     );

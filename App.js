@@ -1,17 +1,15 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native';
 import HomePage from './components/home/HomePage';
 import ProfilePage from './components/profile/ProfilePage';
-
-const Item = (props) => (
-  <View style={styles.item}>
-    <Text>{props.title}: {props.message}</Text>
-  </View>
-);
+import LoginPage from './components/login/LoginPage';
+import WelcomePage from './components/login/WelcomePage';
+import EventsPage from './components/events/EventsPage';
 
 function Search() {
   return (
@@ -37,15 +35,41 @@ function Chat() {
   );
 }
 
-function Profile() {
+function Signup() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Profile Screen!</Text>
+    <View>
+      <Text>Sign-Up</Text>
     </View>
-  );
+  )
 }
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function MainNavigation() {
+  return (
+    <Stack.Navigator 
+      style={styles.nav}
+      initialRouteName="Welcome"
+      screenOptions={{
+        headerStyle: {
+        backgroundColor: '#0CA789',
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontSize: 32
+      },
+      headerTintColor: '#fff',
+      }}>
+      <Stack.Screen name="Welcome" component={WelcomePage} />
+      <Stack.Screen name="Login" component={LoginPage} />
+      <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="Main" 
+      component={MyTabs} 
+      options={{headerShown: false}}/>
+    </Stack.Navigator>
+  );
+}
 
 function MyTabs() {
   return (
@@ -73,6 +97,13 @@ function MyTabs() {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
+          headerRight: () => (
+            <Button
+              onPress={() => alert('This is a button!')}
+              title="Info"
+              color="#00cc00"
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -87,7 +118,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Events"
-        component={Events}
+        component={EventsPage}
         options={{
           tabBarLabel: 'Events',
           tabBarIcon: ({ color, size }) => (
@@ -127,9 +158,9 @@ const styles = StyleSheet.create({
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <MyTabs />
-    </NavigationContainer>
+      <NavigationContainer>
+        <MainNavigation />
+      </NavigationContainer>
   );
 }
 
