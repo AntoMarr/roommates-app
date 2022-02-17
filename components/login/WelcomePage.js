@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
-import MainButton from './MainButton';
+import MainButton from '../../assets/MainButton';
 
 export class WelcomePage extends Component {
     constructor(props)

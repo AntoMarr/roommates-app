@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Text, View, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { Text, View, Button, Pressable } from 'react-native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -10,27 +10,15 @@ import ProfilePage from './components/profile/ProfilePage';
 import LoginPage from './components/login/LoginPage';
 import WelcomePage from './components/login/WelcomePage';
 import EventsPage from './components/events/EventsPage';
+import DiscoverPage from './components/discover/DiscoverPage';
+import ChatPage from './components/home/chat/ChatPage';
+import AddAnnouncement from './components/home/AddAnnouncement';
+import SignupPage from './components/login/SignupPage';
 
-function Search() {
+function Chores() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Search Screen!</Text>
-    </View>
-  );
-}
-
-function Events() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Events Screen!</Text>
-    </View>
-  );
-}
-
-function Chat() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Chat Screen!</Text>
+      <Text>Chores Screen!</Text>
     </View>
   );
 }
@@ -63,10 +51,14 @@ function MainNavigation() {
       }}>
       <Stack.Screen name="Welcome" component={WelcomePage} />
       <Stack.Screen name="Login" component={LoginPage} />
-      <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="Signup" component={SignupPage} />
       <Stack.Screen name="Main" 
       component={MyTabs} 
       options={{headerShown: false}}/>
+      <Stack.Screen name="Chat" component={ChatPage} />
+      <Stack.Screen name="AddAnnouncement"
+      component={AddAnnouncement} 
+      options={{headerTitle: 'Add'}}/>
     </Stack.Navigator>
   );
 }
@@ -91,24 +83,31 @@ function MyTabs() {
       <Tab.Screen
         name="Home"
         component={HomePage}
-        options={{
+        options={({navigation}) => ({
           title: "myRoommies",
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
           headerRight: () => (
-            <Button
-              onPress={() => alert('This is a button!')}
-              title="Info"
-              color="#00cc00"
-            />
+            <Pressable
+            onPress={() => navigation.navigate("Chat")}
+            style={{marginRight: 20}}>
+              <MaterialCommunityIcons name="chat" size={30} color="white" />
+            </Pressable>
           ),
-        }}
+          headerLeft: () => (
+            <Pressable
+            onPress={() => navigation.navigate("AddAnnouncement")}
+            style={{marginLeft: 20}}>
+              <MaterialCommunityIcons name="plus" size={30} color="white" />
+            </Pressable>
+          )
+        })}
       />
       <Tab.Screen
         name="Discover"
-        component={Search}
+        component={DiscoverPage}
         options={{
           tabBarLabel: 'Discover',
           tabBarIcon: ({ color, size }) => (
@@ -127,12 +126,12 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="Chat"
-        component={Chat}
+        name="Chores"
+        component={Chores}
         options={{
-          tabBarLabel: 'Chat',
+          tabBarLabel: 'Chores',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="chat" color={color} size={size} />
+            <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />
           ),
         }}
       />

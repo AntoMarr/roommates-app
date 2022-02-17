@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
-import MainButton from './MainButton';
+import FormInput from '../../assets/FormInput';
+import MainButton from '../../assets/MainButton';
 
 export class LoginPage extends Component {
 constructor(props) {
@@ -49,7 +50,18 @@ constructor(props) {
         <View style={{flex: 1}}>
             <View style={styles.container}>
                 <Text style={styles.error}>{errorText}</Text>
-                <Text style={styles.title}>Username</Text>
+                <FormInput 
+                title="Username"
+                value={username}
+                onChangeText={text => this.setState({username: text})}
+                autoCorrect={false}
+                autoCapitalize={'none'}/>
+                <FormInput 
+                title="Password"
+                value={password}
+                onChangeText={text2 => this.setState({password: text2})}
+                secureTextEntry={true}/>
+                {/* <Text style={styles.title}>Username</Text>
                 <View style={styles.textInput}>
                     <TextInput
                     allowFontScaling={true}
@@ -70,7 +82,7 @@ constructor(props) {
                     value={password}
                     onChangeText={text => this.setState({password: text})}
                     />
-                </View>
+                </View> */}
                 <MainButton 
                 navigation={this.props.navigation}
                 location="Main"
@@ -84,7 +96,7 @@ constructor(props) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 2,
+        flex: 1,
         justifyContent: 'center'
     },
     textInput: {

@@ -19,8 +19,6 @@ export class HomePage extends Component {
       try {
         const response = await fetch(
           'https://myroommies.herokuapp.com/user/1/announcements.json'
-          //'https://myroommies.herokuapp.com/data/data.json'
-          //https://myroommies.herokuapp.com/USER/annoucnements.json
         );
         const json = await response.json();
         console.log(json)
