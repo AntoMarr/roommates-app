@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, ActivityIndicator, FlatList } from 'react-native'
+import { Text, View, StyleSheet, ActivityIndicator, FlatList, Pressable } from 'react-native'
 
 const getDataFromServer = async (setData) =>
 {
@@ -25,8 +26,17 @@ function Loading() {
 }
 
 function Item ({ item }) {
+  const navigation = useNavigation()
   return (
-  <View style={styles.item}>
+  <Pressable 
+  onPress={() => navigation.navigate("Message", {name: item.firstname})}
+  style={({ pressed }) => [
+    {
+        backgroundColor: pressed
+            ? '#167d69'
+            : '#0CA789'
+    },
+    styles.item]}>
     <View style={styles.itemPicture}>
       <Text style={styles.itemPictureText}>{item.firstname.substring(0,1)}{item.lastname.substring(0,1)}</Text>
     </View>
@@ -36,14 +46,14 @@ function Item ({ item }) {
         {item.firstname} {item.lastname}
         </Text>
         <Text style={styles.itemDate}>
-          {item.date.substring(0,4)}
+          {item.date.substring(0,10)}
         </Text>
       </View>
       <View style={styles.itemMessage}>
         <Text style={styles.itemMessageText}>{item.message}</Text>
       </View>
     </View>
-  </View>
+  </Pressable>
   );
 }
 
@@ -53,7 +63,6 @@ function Loaded({ data }) {
     return (
       <Item
         item={item}
-        onPress={() => console.log("PRESS")}
       />
     );
   };
@@ -74,7 +83,6 @@ function ChatPage() {
   useEffect(() => {
     getDataFromServer(setData)
   }, [])
-  
   
   return (
     <View style={styles.container}>
@@ -100,7 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     height: 100,
-    backgroundColor: 'lightgrey',
+    // backgroundColor: 'lightgrey',
     borderRadius: 5,
     margin: 1
   },
@@ -123,7 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     width: '100%',
-    marginHorizontal: 10
+    margin: 10
   },
   itemMessage: {
     flex: 2

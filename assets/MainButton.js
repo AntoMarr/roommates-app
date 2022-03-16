@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 export class MainButton extends Component {
   render() {
     return (
-        <Pressable style={styles.buttonContainer}
+        <Pressable
             style={({ pressed }) => [
                 {
                     backgroundColor: pressed
@@ -16,7 +16,8 @@ export class MainButton extends Component {
                     margin: 10,
                     borderRadius: 10
                 
-                }]}
+                },
+                styles.buttonContainer]}
             onPress={this.props.action == null ? () => this.props.navigation.navigate(this.props.location) : this.props.action}>
             <Text style={styles.button}>{this.props.children}</Text>
         </Pressable>

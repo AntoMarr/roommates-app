@@ -14,6 +14,7 @@ import DiscoverPage from './components/discover/DiscoverPage';
 import ChatPage from './components/home/chat/ChatPage';
 import AddAnnouncement from './components/home/AddAnnouncement';
 import SignupPage from './components/login/SignupPage';
+import ConversationPage from './components/home/chat/ConversationPage';
 
 function Chores() {
   return (
@@ -21,14 +22,6 @@ function Chores() {
       <Text>Chores Screen!</Text>
     </View>
   );
-}
-
-function Signup() {
-  return (
-    <View>
-      <Text>Sign-Up</Text>
-    </View>
-  )
 }
 
 const Tab = createBottomTabNavigator();
@@ -56,6 +49,8 @@ function MainNavigation() {
       component={MyTabs} 
       options={{headerShown: false}}/>
       <Stack.Screen name="Chat" component={ChatPage} />
+      <Stack.Screen name="Message" component={ConversationPage}
+      options={({ route }) => ({ title: route.params.name })} />
       <Stack.Screen name="AddAnnouncement"
       component={AddAnnouncement} 
       options={{headerTitle: 'Add'}}/>
