@@ -1,30 +1,52 @@
 import React, { useState } from 'react'
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
+import FormInput from '../../assets/FormInput';
+import MainButton from '../../assets/MainButton';
+
+var height; // WORK ON HEIGHT FOR THE ADD PAGE BECAUSE THE NUMBER OF LINES IS MESSED UP WITH THE SYTLES
 
 function AddAnnouncement() {
-  const [name, setName] = useState(null)
-  const [type, setType] = useState()
+  const [name, setName] = useState("")
+  const [type, setType] = useState(1)
+  const [desc, setDesc] = useState("");
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     {label: 'Announcement', value: 1},
-    {label: 'Event', value: 2}
+    {label: 'Event', value: 2},
+    {label: 'Meeting', value: 3},
+    {label: 'Chore', value: 4}
   ]);
+
   return (
     <View>
+        <FormInput 
+        title='Title'
+        value={name}
+        onChangeText={setName} />
+        
         <Text style={styles.label}>Type</Text>
         <DropDownPicker
+        style={styles.input}
         items={items}
         setItems={setItems}
-        style={styles.input}
         value={type}
         setValue={setType}
         setOpen={setOpen}
         open={open}
-        containerStyle={styles.label}
+        dropDownContainerStyle={styles.dropdown}
         />
 
-        <Text>{type}</Text>
+        <FormInput 
+        title='Description'
+        value={desc}
+        onChangeText={setDesc}
+        numberOfLines={5}
+        />
+
+        <MainButton
+        action={() => console.log("ok")}
+        >Submit</MainButton>
     </View>
   )
 }
@@ -39,7 +61,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 18,
     padding: 10,
-    backgroundColor: 'white'
+  },
+  dropdown: {
+    width: '95%',
+    borderColor: 'lightgrey',
+    borderWidth: 3,
+    alignSelf: 'center',
+    borderRadius: 5,
+    fontSize: 18
   },
   label: {
     textAlign: 'left',

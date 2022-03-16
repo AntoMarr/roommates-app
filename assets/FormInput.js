@@ -5,13 +5,9 @@ function FormInput(props) {
   return (
     <View>
         <Text style={styles.label}>{props.title}</Text>
-        <TextInput 
+        <TextInput
         style={styles.input}
-        value={props.value}
-        onChangeText={props.onChangeText}
-        autoCorrect={props.autoCorrect}
-        autoCapitalize={props.autoCapitalize}
-        secureTextEntry={props.secureTextEntry}/>
+        {...props}/>
     </View>
   )
 }
