@@ -29,7 +29,12 @@ function Item ({ item }) {
   const navigation = useNavigation()
   return (
   <Pressable 
-  onPress={() => navigation.navigate("Message", {name: item.firstname})}
+  onPress={() => navigation.navigate(
+    "Message", 
+    {
+      name: item.firstname,
+      conversationID: item.conversationid
+    })}
   style={({ pressed }) => [
     {
         backgroundColor: pressed
