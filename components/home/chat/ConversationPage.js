@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { View, Text, ActivityIndicator, StyleSheet, FlatList } from 'react-native'
 
@@ -27,10 +26,12 @@ function Loading() {
 
 function Item ({ item }) {
   return (
-    <View>
-      <Text>
-        {item.message}
-      </Text>
+    <View style={styles.message}>
+        <View style={item.senderid == global.userID ? styles.rightSideMessage : styles.leftSideMessage}>
+            <Text style={item.senderid == global.userID ? styles.rightSideText : styles.leftSideText}>
+                {item.message}
+            </Text>
+        </View>
     </View>
   )
 }
@@ -83,8 +84,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  leftSide: {
-    width: '100%'
+  message: {
+    width: 'auto',
+    paddingVertical: 2,
+  },
+  leftSideText: {
+      textAlign: 'left',
+      backgroundColor: 'lightgrey'
+  },
+  rightSideText: {
+      textAlign: 'right',
+      backgroundColor: 'blue'
   }
 })
 

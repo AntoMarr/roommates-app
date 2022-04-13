@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import { StyleSheet, Text, View } from 'react-native';
+import { Agenda } from 'react-native-calendars';
+
+function renderItem(item, firstItemInDay) {
+    return (
+        <View style={styles.itemContainer}>
+            <Text style={{textAlign: 'center'}}>{item.name}</Text>
+        </View>
+    )
+}
 
 export class EventsPage extends Component {
     render() {
@@ -20,25 +28,41 @@ export class EventsPage extends Component {
         }
     return(
         <View style={styles.container}>
-            <Calendar
+            {/* <Calendar
+            markingType={'custom'}
+            onDayPress={day => {
+                console.log('selected day', day);
+            }}
             minDate={formatDate(new Date())}
             enableSwipeMonths={true}
-            hideExtraDays={false}
+            hideExtraDays={true}
             disableMonthChange={true}
             allowSelectionOutOfRange={false}
             markedDates={{
                 '2022-05-23': {selected: true, marked: true, disableTouchEvent: true},
-                '2022-05-24': {selected: true, marked: true, dotColor: 'red'},
+                '2022-05-24': {selected: true, marked: true, customStyles: {
+                    container: {
+                      backgroundColor: Colors.light.mainColor
+                    }
+                },
+                selectedColor: Colors.light.pressedColor},
                 '2022-05-25': {marked: true, dotColor: 'red', disableTouchEvent: true},
                 '2022-05-26': {marked: true},
                 '2022-05-27': {disabled: true, activeOpacity: 0, disableTouchEvent: false}
-              }}
+            }}
+            /> */}
+            <Agenda
+                items={{
+                    '2022-04-22': [{name: 'item 1 - any js object'}],
+                    '2022-04-23': [{name: 'item 2 - any js object', height: 80}],
+                    '2022-04-25': [{name: 'item 3 - any js object'}, {name: 'any js object'}]
+                }}
+                renderItem={(item, firstItemInDay) => renderItem(item, firstItemInDay)}
+                showClosingKnob={true}
+                pastScrollRange={0}
+                futureScrollRange={12}
+                refreshing={false}
             />
-            <ScrollView>
-                <Text>
-                    Text
-                </Text>
-            </ScrollView>
         </View>
     );
   }
@@ -50,7 +74,14 @@ const styles = StyleSheet.create({
     },
     card: {
         flex: 1
-    }
+    },
+    itemContainer: {
+        flex: 1, 
+        borderColor: 'black', 
+        borderWidth: 1, 
+        height: 50,
+        justifyContent: 'center', 
+        alignContent: 'center'}
 })
 
 export default EventsPage;

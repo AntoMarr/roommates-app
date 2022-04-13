@@ -15,6 +15,7 @@ import ChatPage from './components/home/chat/ChatPage';
 import AddAnnouncement from './components/home/AddAnnouncement';
 import SignupPage from './components/login/SignupPage';
 import ConversationPage from './components/home/chat/ConversationPage';
+import ChoresPage from './components/chores/ChoresPage';
 
 function Chores() {
   return (
@@ -122,7 +123,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Chores"
-        component={Chores}
+        component={ChoresPage}
         options={{
           tabBarLabel: 'Chores',
           tabBarIcon: ({ color, size }) => (

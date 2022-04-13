@@ -33,6 +33,8 @@ constructor(props) {
             else
                 this.props.navigation.navigate("Main")
                 global.userID = json[0].userid
+                global.username = json[0].username
+                global.email = json[0].email
         } catch (error) {
             this.setState({ errorText: 'Username or password are incorrect. Try again.' });
             console.error(error);

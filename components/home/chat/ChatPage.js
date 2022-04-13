@@ -55,7 +55,7 @@ function Item ({ item }) {
         </Text>
       </View>
       <View style={styles.itemMessage}>
-        <Text style={styles.itemMessageText}>{item.message}</Text>
+        <Text style={styles.itemMessageText}>{item.latestmessage}</Text>
       </View>
     </View>
   </Pressable>
