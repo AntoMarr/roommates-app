@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -7,6 +8,8 @@ import MainButton from '../../assets/MainButton';
 var height; // WORK ON HEIGHT FOR THE ADD PAGE BECAUSE THE NUMBER OF LINES IS MESSED UP WITH THE SYTLES
 
 function AddAnnouncement() {
+  const navigation = useNavigation()
+
   const [name, setName] = useState("")
   const [type, setType] = useState(1)
   const [desc, setDesc] = useState("");
@@ -45,7 +48,17 @@ function AddAnnouncement() {
         />
 
         <MainButton
-        action={() => console.log("ok")}
+        action={() => {
+          global.data.push(
+            {
+              "announcement_type": type,
+              "announcementid": Math.random(99999),
+              "description": desc,
+              "title": name
+            }
+          );
+          navigation.goBack()
+        }}
         >Submit</MainButton>
     </View>
   )

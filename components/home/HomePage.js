@@ -23,6 +23,7 @@ export class HomePage extends Component {
         const json = await response.json();
         console.log(json)
         this.setState({ data: json });
+        global.data = json
       } catch (error) {
         console.error(error);
       } finally {
