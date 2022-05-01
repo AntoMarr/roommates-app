@@ -1,87 +1,130 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Agenda } from 'react-native-calendars';
+import React, {Component} from 'react';
+import {Alert, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Agenda, DateData, AgendaEntry, AgendaSchedule} from 'react-native-calendars';
+import Colors from '../../constants/Colors';
+import testIDs from './testIDs';
 
-function renderItem(item, firstItemInDay) {
-    return (
-        <View style={styles.itemContainer}>
-            <Text style={{textAlign: 'center'}}>{item.name}</Text>
-        </View>
-    )
+export default class EventPage extends Component {
+
+constructor(props) {
+    super(props)
+
+    this.state = {item: undefined}
 }
 
-export class EventsPage extends Component {
-    render() {
-        // used for grabbing the date and converting it to a propper format
-        function formatDate(date) {
-            var d = new Date(date - 1),
-                month = '' + (d.getMonth() + 1),
-                day = '' + d.getDate(),
-                year = d.getFullYear();
-        
-            if (month.length < 2) 
-                month = '0' + month;
-            if (day.length < 2) 
-                day = '0' + day;
-        
-            return [year, month, day].join('-');
-        }
-    return(
-        <View style={styles.container}>
-            {/* <Calendar
-            markingType={'custom'}
-            onDayPress={day => {
-                console.log('selected day', day);
-            }}
-            minDate={formatDate(new Date())}
-            enableSwipeMonths={true}
-            hideExtraDays={true}
-            disableMonthChange={true}
-            allowSelectionOutOfRange={false}
-            markedDates={{
-                '2022-05-23': {selected: true, marked: true, disableTouchEvent: true},
-                '2022-05-24': {selected: true, marked: true, customStyles: {
-                    container: {
-                      backgroundColor: Colors.light.mainColor
-                    }
-                },
-                selectedColor: Colors.light.pressedColor},
-                '2022-05-25': {marked: true, dotColor: 'red', disableTouchEvent: true},
-                '2022-05-26': {marked: true},
-                '2022-05-27': {disabled: true, activeOpacity: 0, disableTouchEvent: false}
-            }}
-            /> */}
-            <Agenda
-                items={{
-                    '2022-04-22': [{name: 'item 1 - any js object'}],
-                    '2022-04-23': [{name: 'item 2 - any js object', height: 80}],
-                    '2022-04-25': [{name: 'item 3 - any js object'}, {name: 'any js object'}]
-                }}
-                renderItem={(item, firstItemInDay) => renderItem(item, firstItemInDay)}
-                showClosingKnob={true}
-                pastScrollRange={0}
-                futureScrollRange={12}
-                refreshing={false}
-            />
-        </View>
+  render() {
+    return (
+      <Agenda
+        testID={testIDs.agenda.CONTAINER}
+        items={this.state.items}
+        loadItemsForMonth={this.loadItems}
+        minDate={'2022-04-17'}
+        selected={'2022-04-19'}
+        renderItem={this.renderItem}
+        renderEmptyDate={this.renderEmptyDate}
+        rowHasChanged={this.rowHasChanged}
+        showClosingKnob={true}
+        theme={{
+            selectedDayBackgroundColor: Colors.light.mainColor,
+            dotColor: Colors.light.mainColor,
+            todayTextColor: Colors.light.mainColor
+        }}
+        // markingType={'period'}
+        // markedDates={{
+        //    '2017-05-08': {textColor: '#43515c'},
+        //    '2017-05-09': {textColor: '#43515c'},
+        //    '2017-05-14': {startingDay: true, endingDay: true, color: 'blue'},
+        //    '2017-05-21': {startingDay: true, color: 'blue'},
+        //    '2017-05-22': {endingDay: true, color: 'gray'},
+        //    '2017-05-24': {startingDay: true, color: 'gray'},
+        //    '2017-05-25': {color: 'gray'},
+        //    '2017-05-26': {endingDay: true, color: 'gray'}}}
+        // monthFormat={'yyyy'}
+        // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
+        //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
+        // hideExtraDays={false}
+        // showOnlySelectedDayItems
+      />
     );
+  }
+
+  loadItems = (day) => {
+    const items = this.state.items || {};
+
+    setTimeout(() => {
+      for (let i = 0; i < 23; i++) {
+        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+        const strTime = this.timeToString(time);
+
+        if (!items[strTime]) {
+          items[strTime] = [];
+          
+          const numItems = Math.floor(Math.random() * 3 + 1);
+          for (let j = 0; j < numItems; j++) {
+            items[strTime].push({
+              name: 'Item for ' + strTime + ' #' + j,
+              height: Math.max(50, Math.floor(Math.random() * 150)),
+              day: strTime
+            });
+          }
+        }
+      }
+      
+      const newItems = {};
+      Object.keys(items).forEach(key => {
+        newItems[key] = items[key];
+      });
+      this.setState({
+        items: newItems
+      });
+    }, 1000);
+  }
+
+  renderItem = (reservation, isFirst) => {
+    const fontSize = isFirst ? 16 : 14;
+    const color = isFirst ? 'black' : '#43515c';
+
+    return (
+      <TouchableOpacity
+        testID={testIDs.agenda.ITEM}
+        style={[styles.item, {height: reservation.height}]}
+        onPress={() => Alert.alert(reservation.name, "Relevant Event Information")}
+      >
+        <Text style={{fontSize, color: Colors.light.mainColor}}>{reservation.name}</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  renderEmptyDate = () => {
+    return (
+      <View style={styles.emptyDate}>
+        <Text>This is empty date!</Text>
+      </View>
+    );
+  }
+
+  rowHasChanged = (r1, r2) => {
+    return r1.name !== r2.name;
+  }
+
+  timeToString(time) {
+    const date = new Date(time);
+    return date.toISOString().split('T')[0];
   }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    card: {
-        flex: 1
-    },
-    itemContainer: {
-        flex: 1, 
-        borderColor: 'black', 
-        borderWidth: 1, 
-        height: 50,
-        justifyContent: 'center', 
-        alignContent: 'center'}
-})
-
-export default EventsPage;
+  item: {
+    backgroundColor: 'white',
+    flex: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+    marginTop: 17
+  },
+  emptyDate: {
+    height: 15,
+    flex: 1,
+    paddingTop: 30
+  }
+});
